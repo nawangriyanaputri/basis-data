@@ -1,6 +1,6 @@
 -- MariaDB dump 10.19  Distrib 10.4.32-MariaDB, for Win64 (AMD64)
 --
--- Host: localhost    Database: simahasiswa
+-- Host: localhost    Database: kampuss
 -- ------------------------------------------------------
 -- Server version	10.4.32-MariaDB
 
@@ -23,12 +23,9 @@ DROP TABLE IF EXISTS `mahasiswa`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `mahasiswa` (
-  `NPM` char(5) NOT NULL,
-  `Nama` varchar(25) NOT NULL,
-  `Tempat_Lahir` varchar(30) NOT NULL,
-  `Tanggal_Lahir` date NOT NULL,
-  `Jenis_Kelamin` enum('L','P') NOT NULL,
-  `No_Hp` varchar(25) NOT NULL,
+  `NPM` varchar(10) NOT NULL,
+  `Nama` varchar(100) NOT NULL,
+  `Jurusan` varchar(50) NOT NULL,
   PRIMARY KEY (`NPM`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -39,8 +36,60 @@ CREATE TABLE `mahasiswa` (
 
 LOCK TABLES `mahasiswa` WRITE;
 /*!40000 ALTER TABLE `mahasiswa` DISABLE KEYS */;
-INSERT INTO `mahasiswa` VALUES ('12345','Nawang Riyana Putri','Purbalingga','2007-01-01','P','081453683312'),('12346','Arra Dwi','Purwokerto','2006-03-08','P','081479024156'),('12347','Nur Faizah','Aceh','2006-05-13','P','081924638463'),('12349','Muhammad Nur Fadhilah','Bandung','2005-01-03','L','081724082467');
+INSERT INTO `mahasiswa` VALUES ('2475731463','Nawang Riyana Putri','Teknologi Informasi'),('4241365768','Arra Dwi','Pendidikan IPA'),('7354333565','Fatimah Azzara','Teknologi Informasi');
 /*!40000 ALTER TABLE `mahasiswa` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mata_kuliah`
+--
+
+DROP TABLE IF EXISTS `mata_kuliah`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mata_kuliah` (
+  `Kode_MK` varchar(10) NOT NULL,
+  `Nama_MK` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`Kode_MK`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mata_kuliah`
+--
+
+LOCK TABLES `mata_kuliah` WRITE;
+/*!40000 ALTER TABLE `mata_kuliah` DISABLE KEYS */;
+INSERT INTO `mata_kuliah` VALUES ('MK245','Bumi dan Antariksa'),('MK444','Praktikum Basis Data'),('MK483','Basis Data');
+/*!40000 ALTER TABLE `mata_kuliah` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `nilai`
+--
+
+DROP TABLE IF EXISTS `nilai`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `nilai` (
+  `NPM` varchar(10) NOT NULL,
+  `Kode_MK` varchar(10) NOT NULL,
+  `nilai` int(11) DEFAULT NULL,
+  PRIMARY KEY (`NPM`,`Kode_MK`),
+  KEY `Kode_MK` (`Kode_MK`),
+  CONSTRAINT `nilai_ibfk_1` FOREIGN KEY (`NPM`) REFERENCES `mahasiswa` (`NPM`),
+  CONSTRAINT `nilai_ibfk_2` FOREIGN KEY (`Kode_MK`) REFERENCES `mata_kuliah` (`Kode_MK`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `nilai`
+--
+
+LOCK TABLES `nilai` WRITE;
+/*!40000 ALTER TABLE `nilai` DISABLE KEYS */;
+INSERT INTO `nilai` VALUES ('2475731463','MK444',85),('2475731463','MK483',90),('4241365768','MK245',88),('7354333565','MK444',84),('7354333565','MK483',88);
+/*!40000 ALTER TABLE `nilai` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +101,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-05 10:55:00
+-- Dump completed on 2025-03-12 19:51:20
